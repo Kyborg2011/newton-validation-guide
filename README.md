@@ -31,7 +31,7 @@ Than main parts of TON blockchain full node you can find here:
 For more useful environment you can add into `.bashrc` these lines (all directories only as example):
 
 ```bash
-alias lite-client="~/apps/fullnode-build/lite-client/lite-client -a 134.249.174.87:7654 -p /home/tgnetwork/ton-fullnode/ton-validation/liteserver.pub"
+alias lite-client="~/apps/fullnode-build/lite-client/lite-client -C /var/ton-work/etc/newton-test.global.config.json"
 alias func='~/apps/fullnode-build/crypto/func'
 alias fift='~/apps/fullnode-build/crypto/fift -I ~/apps/ton/crypto/fift/lib'
 alias validator-engine='~/apps/fullnode-build/validator-engine/validator-engine'
@@ -60,7 +60,7 @@ After that you need to create `server/server.pub`, `client/client.pub`, `liteser
 After creation of keypairs and editing db/config.json you can start a fully working full node:
 
 ```bash
-sudo /home/tgnetwork/apps/fullnode-build/validator-engine/validator-engine -d --db /var/ton-work/db/ -C /var/ton-work/etc/newton-test.global.config.json  -l /var/ton-work/log -S 3600000 -v 3 -t 24 -u <YOUR_USERNAME>
+validator-engine -d --db /var/ton-work/db/ -C /var/ton-work/etc/newton-test.global.config.json  -l /var/ton-work/log -S 3600000 -v 3 -t 24
 ```
 
 #### Setting up a utility for participation in validator's election: 
