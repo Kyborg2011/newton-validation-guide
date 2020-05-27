@@ -2,25 +2,23 @@
 
 #### Installation of dependings packages:
 
-`sudo yum install -y epel-release`
-`sudo dnf config-manager --set-enabled PowerTools`
-`sudo yum install -y git make cmake clang gflags gflags-devel zlib zlib-devel openssl-devel openssl-libs readline-devel libmicrohttpd python3 python3-pip python36-devel`
+```bash
+sudo yum install -y epel-release
+sudo dnf config-manager --set-enabled PowerTools
+sudo yum install -y git make cmake clang gflags gflags-devel zlib zlib-devel openssl-devel openssl-libs readline-devel libmicrohttpd python3 python3-pip python36-devel
+```
 
 #### Compilation of TON full node:
 
-`git clone https://github.com/ton-blockchain/ton.git`
-
-`cd ton`
-
-`git submodule update --init --recursive`
-
-`cd ../`
-
-`mkdir build && cd build`
-
-`cmake -DCMAKE_BUILD_TYPE=Release ../ton`
-
-`cmake --build .`
+```bash
+git clone https://github.com/ton-blockchain/ton.git
+cd ton
+git submodule update --init --recursive
+cd ../
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ../ton
+cmake --build .
+```
 
 Than main parts of TON blockchain full node you can find here:
 
@@ -32,26 +30,24 @@ Than main parts of TON blockchain full node you can find here:
 
 For more useful environment you can add into `.bashrc` these lines (all directories only as example):
 
-`alias lite-client="~/apps/fullnode-build/lite-client/lite-client -a 134.249.174.87:7654 -p /home/tgnetwork/ton-fullnode/ton-validation/liteserver.pub"`
-`alias func='~/apps/fullnode-build/crypto/func'`
-`alias fift='~/apps/fullnode-build/crypto/fift -I ~/apps/ton/crypto/fift/lib'`
-`alias validator-engine='~/apps/fullnode-build/validator-engine/validator-engine'`
+```bash
+alias lite-client="~/apps/fullnode-build/lite-client/lite-client -a 134.249.174.87:7654 -p /home/tgnetwork/ton-fullnode/ton-validation/liteserver.pub"
+alias func='~/apps/fullnode-build/crypto/func'
+alias fift='~/apps/fullnode-build/crypto/fift -I ~/apps/ton/crypto/fift/lib'
+alias validator-engine='~/apps/fullnode-build/validator-engine/validator-engine'
+```
 
 #### Setting up a validator database:
 
-`sudo mkdir /var/ton-work`
-
-`cd /var/ton-work`
-
-`mkdir etc`
-
-`cd etc`
-
-`wget https://newton-blockchain.github.io/newton-test.global.config.json`
-
-`cd ../`
-
-`mkdir db`
+```bash
+sudo mkdir /var/ton-work
+cd /var/ton-work
+mkdir etc
+cd etc
+wget https://newton-blockchain.github.io/newton-test.global.config.json
+cd ../
+mkdir db
+```
 
 First launch of `validator-engine` for creating of a `db/config.json`:
 
@@ -63,7 +59,9 @@ After that you need to create `server/server.pub`, `client/client.pub`, `liteser
 
 After creation of keypairs and editing db/config.json you can start a fully working full node:
 
-`sudo /home/tgnetwork/apps/fullnode-build/validator-engine/validator-engine -d --db /var/ton-work/db/ -C /var/ton-work/etc/newton-test.global.config.json  -l /var/ton-work/log -S 3600000 -v 3 -t 24 -u <YOUR_USERNAME>`
+```bash
+sudo /home/tgnetwork/apps/fullnode-build/validator-engine/validator-engine -d --db /var/ton-work/db/ -C /var/ton-work/etc/newton-test.global.config.json  -l /var/ton-work/log -S 3600000 -v 3 -t 24 -u <YOUR_USERNAME>
+```
 
 #### Setting up a utility for participation in validator's election: 
 
@@ -130,9 +128,10 @@ That's all! Other constants in file you shouldn't change.
 
 If you done every step before, rightly, then you can run your validator.py like this:
 
-`source env/bin/activate`
-
-`python validator.py`
+```bash
+source env/bin/activate
+python validator.py
+```
 
 This script will do everything, related to your validator automatically: it will send query for participation in validators election (if them will be anounced), it will recover your stake with your bounties, etc.
 
@@ -140,7 +139,9 @@ This script will do everything, related to your validator automatically: it will
 
 If your `validator.py` script working without any errors, the last step that you need is setting up auto start of it. You can use for it your cron manager. For edit cron jobs on your server you can run: `crontab -e` and then add a new job:
 
-`*/3 * * * * cd /home/<YOUR_USERNAME>/ton-validation && env/bin/python validator.py > /dev/null 2>&1`
+```bash
+*/3 * * * * cd /home/<YOUR_USERNAME>/ton-validation && env/bin/python validator.py > /dev/null 2>&1
+```
 
 Right now your full node is working fine and `validator.py` is starting every 3 minutes to make new queries for pariticipation in every new validation rounds.
 
